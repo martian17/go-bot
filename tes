@@ -1,0 +1,42 @@
+package customTicker
+
+import (
+    "time"
+)
+
+type CustomTicker struct{
+    C chan time.Time
+}
+func New (pause time.Duration, d time.Duration) (*CustomTicker){
+    C := make(chan time.Time)
+    
+    go func(){
+        time.Sleep(pause)
+        C <- time.Now()
+        ticker := time.NewTicker(d)
+        for{
+            select{
+            case <- ticker.C:
+                C <- time.Now()
+            case <- C:
+                return//stop the ticker
+            }
+        }
+    }()
+    
+    return &CustomTicker{
+        C: C,
+    }
+}
+
+func (this *CustomTicker)Stop(){
+    this.C <- time.Now()
+}
+
+
+
+
+
+
+
+
