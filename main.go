@@ -101,7 +101,7 @@ func requestJSON(method string, url string, payload string) ([]byte, error) {
         return nil,err
 	}
     
-    return byte,err
+    return b,err
 }
 
 
