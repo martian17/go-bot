@@ -87,21 +87,30 @@ func sendMessage(channel string, msg string) error {
     return err
 }
 
-func printRequest(method string, url string, payload string) {
-	resp, err := makeRequest(method,url,payload)
+//returns json text
+func requestJSON(method string, url string, payload string) ([]byte, error) {
+    resp, err := makeRequest(method,url,payload)
     if err != nil {
-		log.Println(err)
-        return
+        return nil,err
 	}
     
     defer resp.Body.Close()
 
 	b, err := io.ReadAll(resp.Body)
     if err != nil {
-		log.Println("request body read failed: ",err)
-        return
+        return nil,err
 	}
+    
+    return byte,err
+}
 
+
+func printJSON(method string, url string, payload string) {
+    b, err := requestJSON(method,url,payload)
+    if err != nil{
+		log.Println(err)
+        return
+    }
 	fmt.Println(string(b))
 }
 
